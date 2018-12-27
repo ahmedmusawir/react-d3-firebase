@@ -1,35 +1,35 @@
-import D3blackbox from 'd3blackbox';
+import React, { Component } from 'react';
 import * as d3 from 'd3';
 import db from '../config/fbConfig';
 
-const FirebaseD3 = D3blackbox((anchor, props) => {
-  // select the svg container first
-  // create margins & dimensions
+class TestFirebaseD3 extends Component {
+  componentDidMount() {
+    // select the svg container first
+    const svg = d3
+      .select(this.refs.anchor)
+      .append('svg')
+      .attr('width', this.props.width)
+      .attr('height', this.props.height);
 
-  const svg = d3.select(anchor.current),
-    margin = { top: 20, right: 20, bottom: 100, left: 100 },
-    graphWidth = +props.width - margin.left - margin.right,
-    graphHeight = +props.height - margin.top - margin.bottom;
+    // create margins & dimensions
+    const margin = { top: 20, right: 20, bottom: 100, left: 100 };
+    const graphWidth = 600 - margin.left - margin.right;
+    const graphHeight = 600 - margin.top - margin.bottom;
 
-  const graph = svg
-    .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    const graph = svg
+      .append('g')
+      .attr('width', graphWidth)
+      .attr('height', graphHeight)
+      .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-  // create axes groups
-  const xAxisGroup = graph
-    .append('g')
-    .attr('transform', `translate(0, ${graphHeight})`);
+    // create axes groups
+    const xAxisGroup = graph
+      .append('g')
+      .attr('transform', `translate(0, ${graphHeight})`);
 
-  const yAxisGroup = graph.append('g');
+    const yAxisGroup = graph.append('g');
 
-  db.collection('dishes')
-    .get()
-    .then(res => {
-      const data = [];
-      res.docs.forEach(doc => {
-        data.push(doc.data());
-      });
-
+    d3.json('menu.json').then(data => {
       const y = d3
         .scaleLinear()
         .domain([0, d3.max(data, d => d.orders)])
@@ -59,7 +59,7 @@ const FirebaseD3 = D3blackbox((anchor, props) => {
         .append('rect')
         .attr('width', x.bandwidth)
         .attr('height', d => graphHeight - y(d.orders))
-        .attr('fill', 'lightskyblue')
+        .attr('fill', 'orange')
         .attr('x', d => x(d.name))
         .attr('y', d => y(d.orders));
 
@@ -75,10 +75,19 @@ const FirebaseD3 = D3blackbox((anchor, props) => {
 
       xAxisGroup
         .selectAll('text')
-        .attr('fill', 'darkblue')
+        .attr('fill', 'orange')
         .attr('transform', 'rotate(-40)')
         .attr('text-anchor', 'end');
     });
-});
+  }
 
-export default FirebaseD3;
+  render() {
+    return (
+      <svg width={this.props.width} height={this.props.height}>
+        <g ref="anchor" />
+      </svg>
+    );
+  }
+}
+
+export default TestFirebaseD3;

@@ -7,7 +7,7 @@ export class Home extends Component {
       <div>
         <h1>Bar Chart</h1>
         <svg width="600" height="600">
-          <Barchart x={10} y={10} width={550} height={500} />
+          <Barchart x={100} y={100} width={550} height={500} />
         </svg>
       </div>
     );
