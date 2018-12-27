@@ -29,9 +29,6 @@ class TestFirebaseD3 extends Component {
 
     const yAxisGroup = graph.append('g');
 
-    // Transitions
-    const t = d3.transition().duration(1000);
-
     const update = data => {
       const y = d3
         .scaleLinear()
@@ -43,6 +40,7 @@ class TestFirebaseD3 extends Component {
         .range([0, graphWidth])
         .paddingInner(0.2)
         .paddingOuter(0.2);
+
       // join the data to circs
       const rects = graph.selectAll('rect').data(data);
 
@@ -62,23 +60,22 @@ class TestFirebaseD3 extends Component {
       // add attrs to circs already in the DOM
       rects
         .attr('width', x.bandwidth)
-        .attr('fill', 'orange')
-        .attr('x', d => x(d.name));
-      // .transition(t)
-      // .attr('height', d => graphHeight - y(d.orders))
-      // .attr('y', d => y(d.orders));
+        .attr('height', d => graphHeight - y(d.orders))
+        .attr('fill', '#ffc120')
+        .attr('x', d => x(d.name))
+        .attr('y', d => y(d.orders));
 
       // append the enter selection to the DOM
       rects
         .enter()
         .append('rect')
-        .attr('width', 0)
+        .attr('width', x.bandwidth)
         .attr('height', 0)
-        .attr('fill', 'orange')
+        .attr('fill', '#ffc120')
         .attr('x', d => x(d.name))
         .attr('y', graphHeight)
-        .merge(rects)
-        .transition(t)
+        .transition()
+        .duration(1000)
         .attrTween('width', widthTween)
         .attr('y', d => y(d.orders))
         .attr('height', d => graphHeight - y(d.orders));
@@ -93,39 +90,42 @@ class TestFirebaseD3 extends Component {
       yAxisGroup.call(yAxis);
       xAxisGroup
         .selectAll('text')
-        .attr('fill', 'orange')
+        .attr('fill', 'red')
         .attr('transform', 'rotate(-40)')
         .attr('text-anchor', 'end');
     };
 
-    let data = [];
+    db.collection('dishes')
+      .get()
+      .then(res => {
+        const data = [];
+        res.docs.forEach(doc => {
+          data.push(doc.data());
+        });
 
-    // get change snapshot data from firebase realtime
-    db.collection('dishes').onSnapshot(res => {
-      res.docChanges().forEach(change => {
-        const doc = { ...change.doc.data(), id: change.doc.id };
-        // console.log(change);
-        // console.log(change.doc.data());
-        // console.log(doc);
+        update(data);
 
-        switch (change.type) {
-          case 'added':
-            data.push(doc);
-            break;
-          case 'modified':
-            const index = data.findIndex(item => item.id === doc.id);
-            data[index] = doc;
-            break;
-          case 'removed':
-            data = data.filter(item => item.id !== doc.id);
-            break;
-          default:
-            break;
-        }
+        d3.interval(() => {
+          data[0].orders += 5;
+          // console.log(data);
+          update(data);
+        }, 5000);
+        d3.interval(() => {
+          data[1].orders += 5;
+          // console.log(data);
+          update(data);
+        }, 4000);
+        d3.interval(() => {
+          data[2].orders += 5;
+          // console.log(data);
+          update(data);
+        }, 3000);
+        d3.interval(() => {
+          data[3].orders += 5;
+          // console.log(data);
+          update(data);
+        }, 2000);
       });
-
-      update(data);
-    });
   }
 
   render() {

@@ -1,4 +1,3 @@
-import React from 'react';
 import D3blackbox from 'd3blackbox';
 import * as d3 from 'd3';
 

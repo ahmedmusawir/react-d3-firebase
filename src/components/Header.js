@@ -32,6 +32,11 @@ const Header = props => {
             </NavLink>
           </li>
           <li className="nav-item">
+            <NavLink to="/movement" className="nav-link">
+              <i className="fa fa-plus" aria-hidden="true" /> Movement
+            </NavLink>
+          </li>
+          <li className="nav-item">
             <NavLink to="/test" className="nav-link">
               <i className="fa fa-plus" aria-hidden="true" /> Test-FB-D3
             </NavLink>

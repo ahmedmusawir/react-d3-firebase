@@ -29,9 +29,6 @@ class TestFirebaseD3 extends Component {
 
     const yAxisGroup = graph.append('g');
 
-    // Transitions
-    const t = d3.transition().duration(1000);
-
     const update = data => {
       const y = d3
         .scaleLinear()
@@ -46,40 +43,27 @@ class TestFirebaseD3 extends Component {
       // join the data to circs
       const rects = graph.selectAll('rect').data(data);
 
-      // TWEEN
-      const widthTween = d => {
-        // define interpolation
-        // d3.interpolate returns a function which we call i
-        let i = d3.interpolate(0, x.bandwidth());
-
-        // return a function which takes in a time ticker t
-        return function(t) {
-          // return the value from passing the ticker into the intrpolation
-          return i(t);
-        };
-      };
-
       // add attrs to circs already in the DOM
       rects
         .attr('width', x.bandwidth)
         .attr('fill', 'orange')
-        .attr('x', d => x(d.name));
-      // .transition(t)
-      // .attr('height', d => graphHeight - y(d.orders))
-      // .attr('y', d => y(d.orders));
+        .attr('x', d => x(d.name))
+        .transition()
+        .duration(1000)
+        .attr('height', d => graphHeight - y(d.orders))
+        .attr('y', d => y(d.orders));
 
       // append the enter selection to the DOM
       rects
         .enter()
         .append('rect')
-        .attr('width', 0)
+        .attr('width', x.bandwidth)
         .attr('height', 0)
         .attr('fill', 'orange')
         .attr('x', d => x(d.name))
         .attr('y', graphHeight)
-        .merge(rects)
-        .transition(t)
-        .attrTween('width', widthTween)
+        .transition()
+        .duration(1000)
         .attr('y', d => y(d.orders))
         .attr('height', d => graphHeight - y(d.orders));
 
@@ -104,16 +88,16 @@ class TestFirebaseD3 extends Component {
     db.collection('dishes').onSnapshot(res => {
       res.docChanges().forEach(change => {
         const doc = { ...change.doc.data(), id: change.doc.id };
-        // console.log(change);
+        console.log(change);
         // console.log(change.doc.data());
-        // console.log(doc);
+        console.log(doc);
 
         switch (change.type) {
           case 'added':
             data.push(doc);
             break;
           case 'modified':
-            const index = data.findIndex(item => item.id === doc.id);
+            const index = data.findIndex(item => item.id == doc.id);
             data[index] = doc;
             break;
           case 'removed':

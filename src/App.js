@@ -5,6 +5,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from './containers/Home';
 import Circle from './containers/Circle';
+import Movement from './containers/Movement';
 import Test from './containers/Test';
 import Firebase from './containers/Firebase';
 
@@ -32,6 +33,7 @@ class App extends Component {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/firebase" component={Firebase} />
                 <Route exact path="/circle" component={Circle} />
+                <Route exact path="/movement" component={Movement} />
                 <Route exact path="/test" component={Test} />
                 {/* <Route component={NotFound404} /> */}
               </Switch>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { SimplePieChart } from '../components/SimplePieChart';
 import TestFirebaseD3 from '../components/TestFirebaseD3';
 
 const styles = {
