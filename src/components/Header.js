@@ -21,6 +21,11 @@ const Header = props => {
             </NavLink>
           </li>
           <li className="nav-item">
+            <NavLink to="/add" className="nav-link">
+              <i className="fa fa-plus" aria-hidden="true" /> Add Data
+            </NavLink>
+          </li>
+          <li className="nav-item">
             <NavLink to="/firebase" className="nav-link">
               <i className="fa fa-question-circle" aria-hidden="true" />{' '}
               Firebase
@@ -32,13 +37,8 @@ const Header = props => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/movement" className="nav-link">
-              <i className="fa fa-plus" aria-hidden="true" /> Movement
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/test" className="nav-link">
-              <i className="fa fa-plus" aria-hidden="true" /> Test-FB-D3
+            <NavLink to="/barchart" className="nav-link">
+              <i className="fa fa-plus" aria-hidden="true" /> Barchart
             </NavLink>
           </li>
         </ul>

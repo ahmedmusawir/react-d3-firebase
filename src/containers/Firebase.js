@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
-// import db from '../config/fbConfig';
 import FirebaseD3 from '../components/FirebaseD3';
 
 export class Home extends Component {
-  // componentDidMount() {
-  //   console.log(db);
-  //   db.collection('dishes')
-  //     .get()
-  //     .then(res => {
-  //       const data = [];
-  //       res.docs.forEach(doc => {
-  //         data.push(doc.data());
-  //       });
-
-  //       console.log(data);
-  //     });
-  // }
   render() {
     return (
       <div>

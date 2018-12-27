@@ -119,12 +119,12 @@ class TestFirebaseD3 extends Component {
           data[2].orders += 5;
           // console.log(data);
           update(data);
-        }, 3000);
+        }, 2000);
         d3.interval(() => {
           data[3].orders += 5;
           // console.log(data);
           update(data);
-        }, 2000);
+        }, 3000);
       });
   }
 

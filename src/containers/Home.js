@@ -6,6 +6,7 @@ export class Home extends Component {
     return (
       <div>
         <h1>Bar Chart</h1>
+        <h5>with remote JSON & BlackboxD3</h5>
         <svg width="600" height="600">
           <Barchart x={100} y={100} width={550} height={500} />
         </svg>

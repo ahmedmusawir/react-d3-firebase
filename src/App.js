@@ -30,11 +30,11 @@ class App extends Component {
             <Header branding={name} />
             <div className="container">
               <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/barchart" component={Home} />
                 <Route exact path="/firebase" component={Firebase} />
                 <Route exact path="/circle" component={Circle} />
-                <Route exact path="/movement" component={Movement} />
-                <Route exact path="/test" component={Test} />
+                <Route exact path="/" component={Movement} />
+                <Route exact path="/add" component={Test} />
                 {/* <Route component={NotFound404} /> */}
               </Switch>
             </div>
