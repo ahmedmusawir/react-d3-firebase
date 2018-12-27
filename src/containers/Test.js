@@ -10,9 +10,9 @@ export class Test extends Component {
   render() {
     return (
       <div>
-        <h1>Pie Chart</h1>
+        <h1>Test Firebase D3 without Blackbox</h1>
         <div style={styles}>
-          <TestFirebaseD3 x={300} y={300} width={600} height={600} />
+          <TestFirebaseD3 x={300} y={300} width={600} height={1000} />
         </div>
       </div>
     );

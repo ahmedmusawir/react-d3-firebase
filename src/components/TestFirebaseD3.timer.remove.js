@@ -34,14 +34,20 @@ class TestFirebaseD3 extends Component {
         .scaleLinear()
         .domain([0, d3.max(data, d => d.orders)])
         .range([graphHeight, 0]);
+
       const x = d3
         .scaleBand()
         .domain(data.map(item => item.name))
         .range([0, graphWidth])
         .paddingInner(0.2)
         .paddingOuter(0.2);
+
       // join the data to circs
       const rects = graph.selectAll('rect').data(data);
+
+      // remove exit selection
+      rects.exit().remove();
+
       // add attrs to circs already in the DOM
       rects
         .attr('width', x.bandwidth)
@@ -82,20 +88,12 @@ class TestFirebaseD3 extends Component {
         });
 
         d3.interval(() => {
-          data[0].orders += 5;
+          // data[0].orders += 10;
           // console.log(data);
+          // remove bars
+          data.pop();
           update(data);
         }, 5000);
-        d3.interval(() => {
-          data[1].orders += 10;
-          // console.log(data);
-          update(data);
-        }, 4000);
-        d3.interval(() => {
-          data[2].orders += 5;
-          // console.log(data);
-          update(data);
-        }, 3000);
       });
   }
 

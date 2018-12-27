@@ -82,20 +82,10 @@ class TestFirebaseD3 extends Component {
         });
 
         d3.interval(() => {
-          data[0].orders += 5;
+          data[0].orders += 10;
           // console.log(data);
           update(data);
         }, 5000);
-        d3.interval(() => {
-          data[1].orders += 10;
-          // console.log(data);
-          update(data);
-        }, 4000);
-        d3.interval(() => {
-          data[2].orders += 5;
-          // console.log(data);
-          update(data);
-        }, 3000);
       });
   }
 

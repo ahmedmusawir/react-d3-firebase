@@ -29,19 +29,22 @@ class TestFirebaseD3 extends Component {
 
     const yAxisGroup = graph.append('g');
 
-    const update = data => {
+    d3.json('menu.json').then(data => {
       const y = d3
         .scaleLinear()
         .domain([0, d3.max(data, d => d.orders)])
         .range([graphHeight, 0]);
+
       const x = d3
         .scaleBand()
         .domain(data.map(item => item.name))
         .range([0, graphWidth])
         .paddingInner(0.2)
         .paddingOuter(0.2);
+
       // join the data to circs
       const rects = graph.selectAll('rect').data(data);
+
       // add attrs to circs already in the DOM
       rects
         .attr('width', x.bandwidth)
@@ -49,6 +52,7 @@ class TestFirebaseD3 extends Component {
         .attr('fill', 'orange')
         .attr('x', d => x(d.name))
         .attr('y', d => y(d.orders));
+
       // append the enter selection to the DOM
       rects
         .enter()
@@ -58,45 +62,23 @@ class TestFirebaseD3 extends Component {
         .attr('fill', 'orange')
         .attr('x', d => x(d.name))
         .attr('y', d => y(d.orders));
+
       // create & call axesit
       const xAxis = d3.axisBottom(x);
       const yAxis = d3
         .axisLeft(y)
         .ticks(3)
         .tickFormat(d => d + ' orders');
+
       xAxisGroup.call(xAxis);
       yAxisGroup.call(yAxis);
+
       xAxisGroup
         .selectAll('text')
         .attr('fill', 'orange')
         .attr('transform', 'rotate(-40)')
         .attr('text-anchor', 'end');
-    };
-
-    db.collection('dishes')
-      .get()
-      .then(res => {
-        const data = [];
-        res.docs.forEach(doc => {
-          data.push(doc.data());
-        });
-
-        d3.interval(() => {
-          data[0].orders += 5;
-          // console.log(data);
-          update(data);
-        }, 5000);
-        d3.interval(() => {
-          data[1].orders += 10;
-          // console.log(data);
-          update(data);
-        }, 4000);
-        d3.interval(() => {
-          data[2].orders += 5;
-          // console.log(data);
-          update(data);
-        }, 3000);
-      });
+    });
   }
 
   render() {
